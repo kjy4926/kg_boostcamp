@@ -7,11 +7,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-// ½ÇÁ¦ GameDAO¿Í SurveyDAO¸¦ ÅëÇì µ¥ÀÌÅÍ Á¶ÀÛÀ» Á¦¾îÇÒ Å¬·¡½º
-// GameDAO¿Í SurveyDAO´Â µ¥ÀÌÅÍ¸¦ Á¶ÀÛÇÏ´Â ¹æ¹ı¸¸À» ¾Ë°í ÀÖÀ¸¸ç
-// ¾î¶»°Ô Á¶ÀÛÇÒÁö¿¡ ´ëÇÑ Á¤º¸´Â °¡Áö°í ÀÖÁö ¾Ê´Ù.
-// ÀÌ¸¦ ¾Ë·ÁÁÖ±â  À§ÇÑÅ¬·¡½º°¡ SurveyControllerÀÌ´Ù.
-// ½ÇÁúÀûÀ¸·Î »ç¿ëÀÚ°¡ µ¥ÀÌÅÍ Á¶ÀÛÀ» À§ÇØ »ç¿ëÇÏ´Â µÉ ÀÎÅÍÆäÀÌ½º Å¬·¡½º
+// ì‹¤ì œ GameDAOì™€ SurveyDAOë¥¼ í†µí—¤ ë°ì´í„° ì¡°ì‘ì„ ì œì–´í•  í´ë˜ìŠ¤
+// GameDAOì™€ SurveyDAOëŠ” ë°ì´í„°ë¥¼ ì¡°ì‘í•˜ëŠ” ë°©ë²•ë§Œì„ ì•Œê³  ìˆìœ¼ë©°
+// ì–´ë–»ê²Œ ì¡°ì‘í• ì§€ì— ëŒ€í•œ ì •ë³´ëŠ” ê°€ì§€ê³  ìˆì§€ ì•Šë‹¤.
+// ì´ë¥¼ ì•Œë ¤ì£¼ê¸°  ìœ„í•œí´ë˜ìŠ¤ê°€ SurveyControllerì´ë‹¤.
 public class SurveyController {
 	private GameDAO gdao;
 	private SurveyDAO sdao;
@@ -24,9 +23,9 @@ public class SurveyController {
 		this.view = view;
 		br = new BufferedReader(new InputStreamReader(System.in));
 	}
-	// ¼³¹® ÇÁ·Î±×·¥ ½ÃÀÛ
-	// »ç¿ëÀÚ´Â ÇØ´ç ÇÔ¼ö¸¦ ÅëÇØ Á¶ÀÛÀ» ¼öÇàÇÏ°Ô µÈ´Ù.
-	// ´Ù¸¥ ±â´ÉÀº ³»ºÎÀûÀ¸·Î ¼öÇàµÇ¹Ç·Î ÀÌ ÇÔ¼ö¸¦ Á¦¿ÜÇÏ°ï ¸ğµÎ private Ã³¸®ÇÏ¿´´Ù.
+	// ì„¤ë¬¸ í”„ë¡œê·¸ë¨ ì‹œì‘
+	// ì‚¬ìš©ìëŠ” í•´ë‹¹ í•¨ìˆ˜ë¥¼ í†µí•´ ì¡°ì‘ì„ ìˆ˜í–‰í•˜ê²Œ ëœë‹¤.
+	// ë‹¤ë¥¸ ê¸°ëŠ¥ì€ ë‚´ë¶€ì ìœ¼ë¡œ ìˆ˜í–‰ë˜ë¯€ë¡œ ì´ í•¨ìˆ˜ë¥¼ ì œì™¸í•˜ê³¤ ëª¨ë‘ private ì²˜ë¦¬í•˜ì˜€ë‹¤.
 	public void surveyStart() {
 		try{
 			int oper = -1;
@@ -64,14 +63,14 @@ public class SurveyController {
 			break;
 		}
 	}
-	// ¼³¹® ÁøÇà
+	// ì„¤ë¬¸ ì§„í–‰
 	private void survey() {
 		ArrayList<SurveyVO> rows = sdao.selectAll();
 		try(Connection conn = JdbcConnector.getConnection()){
 			int n;
 			while(true){
 				showView(rows);
-				System.out.print("(Á¾·á : 0)\n¹øÈ£ ÀÔ·Â>> ");
+				System.out.print("(ì¢…ë£Œ : 0)\në²ˆí˜¸ ì…ë ¥>> ");
 				n = Integer.parseInt(br.readLine());
 				if(n==0) break;
 				if(n>0 && n<=rows.size()) {
@@ -85,18 +84,18 @@ public class SurveyController {
 			e.printStackTrace();
 		}
 	}
-	// Á¤º¸ Ãâ·Â
+	// ì •ë³´ ì¶œë ¥
 	private void showView(ArrayList<SurveyVO> rows) {
 		view.printView(rows);
 	}
-	// Àå¸£ ¸ñ·Ï Ãâ·Â
+	// ì¥ë¥´ ëª©ë¡ ì¶œë ¥
 	private void showType(ArrayList<String> rows) {
 		view.printTypeView(rows);
 	}
-	// ¼±ÅÃµÈ Á¤·Ä ¹æ½Ä¿¡ µû¸¥ °á°ú Ãâ·Â
+	// ì„ íƒëœ ì •ë ¬ ë°©ì‹ì— ë”°ë¥¸ ê²°ê³¼ ì¶œë ¥
 	private void showResult() {
 		try {
-			System.out.print("Á¤·Ä ¼±ÅÃ>> ");
+			System.out.print("ì •ë ¬ ì„ íƒ>> ");
 			int n = Integer.parseInt(br.readLine());
 			switch(n) {
 			case 1:
@@ -116,14 +115,14 @@ public class SurveyController {
 			e.printStackTrace();
 		}
 	}
-	// Æ¯Á¤ Àå¸£ÀÇ °ÔÀÓ ¼³¹® °á°ú Ãâ·Â
+	// íŠ¹ì • ì¥ë¥´ì˜ ê²Œì„ ì„¤ë¬¸ ê²°ê³¼ ì¶œë ¥
 	private void showTypeView() {
 		ArrayList<String> rows = gdao.selectAllType();
 		try(Connection conn = JdbcConnector.getConnection()){
 				int n;
 				while(true){
 					showType(rows);
-					System.out.print("(Á¾·á : 0)\n¹øÈ£ ÀÔ·Â>> ");
+					System.out.print("(ì¢…ë£Œ : 0)\në²ˆí˜¸ ì…ë ¥>> ");
 					n = Integer.parseInt(br.readLine());
 					if(n==0) break;
 					if(n>0 && n<=rows.size()) {
@@ -136,29 +135,29 @@ public class SurveyController {
 				e.printStackTrace();
 			}		
 	}
-	// °ÔÀÓ Ãß°¡
+	// ê²Œì„ ì¶”ê°€
 	private boolean insertGame() {
 		boolean result = false;
 		String name;
 		String type;
 		try(Connection conn = JdbcConnector.getConnection()){
-			System.out.print("°ÔÀÓ ÀÌ¸§ ÀÔ·Â : ");
+			System.out.print("ê²Œì„ ì´ë¦„ ì…ë ¥ : ");
 			name = br.readLine();
-			System.out.print("°ÔÀÓ Àå¸£ ÀÔ·Â : ");
+			System.out.print("ê²Œì„ ì¥ë¥´ ì…ë ¥ : ");
 			type = br.readLine();
-			// AutoCommit ÇØÁ¦
+			// AutoCommit í•´ì œ
 			conn.setAutoCommit(false);
-			// Æ®·£Àè¼Ç -> game table insert ÈÄ survey table insert ¼öÇà
+			// íŠ¸ëœì­ì…˜ -> game table insert í›„ survey table insert ìˆ˜í–‰
 			boolean flag1 = gdao.insert(new GameVO(name, type), conn);
 			boolean flag2 = sdao.insert(new SurveyVO(name, 0), conn);
-			// µÑ ¸ğµÎ ÀÌ»ó¾øÀÌ ¼öÇà‰ç´Ù¸é commit
+			// ë‘˜ ëª¨ë‘ ì´ìƒì—†ì´ ìˆ˜í–‰Â‰æ¦®æ‘¸ commit
 			if(flag1 && flag2) {
 				conn.commit();
 				result = true;
 			}
-			// ¹®Á¦°¡ ¹ß»ıÁE´Ù¸é rollback
+			// ë¬¸ì œê°€ ë°œìƒEë‹¤ë©´ rollback
 			else conn.rollback();
-			// AutoCommit º¹±¸
+			// AutoCommit ë³µêµ¬
 			conn.setAutoCommit(true);
 		}catch(IOException e){
 			e.printStackTrace();
@@ -167,13 +166,13 @@ public class SurveyController {
 		}
 		return result;
 	}
-	// °ÔÀÓ »èÁ¦
-	// FK OPTION -> ON DELETE CASCADE ¿É¼ÇÀ¸·Î ÁöÁ¤ÇØµÎ¾ú±â ¶§¹®¿¡
-	// game table¿¡¼­¸¸ »èÁ¦ÇÏ´õ¶óµµ survey table¿¡¼­±îÁö Á¦°ÅµË´Ï´Ù.
+	// ê²Œì„ ì‚­ì œ
+	// FK OPTION -> ON DELETE CASCADE ì˜µì…˜ìœ¼ë¡œ ì§€ì •í•´ë‘ì—ˆê¸° ë•Œë¬¸ì—
+	// game tableì—ì„œë§Œ ì‚­ì œí•˜ë”ë¼ë„ survey tableì—ì„œê¹Œì§€ ì œê±°ë©ë‹ˆë‹¤.
 	private int deleteGame() {
 		int result = -1;
 		try(Connection conn = JdbcConnector.getConnection()){
-			System.out.print("»èÁ¦ÇÒ °ÔÀÓ ÀÌ¸§ ÀÔ·Â : ");
+			System.out.print("ì‚­ì œí•  ê²Œì„ ì´ë¦„ ì…ë ¥ : ");
 			String name = br.readLine();
 			result = gdao.delete(name, conn);
 		}catch(IOException e) {
