@@ -71,7 +71,7 @@ public class SurveyController {
 			int n;
 			while(true){
 				showView(rows);
-				System.out.print("번호 입력>> ");
+				System.out.print("(종료 : 0)\n번호 입력>> ");
 				n = Integer.parseInt(br.readLine());
 				if(n==0) break;
 				if(n>0 && n<=rows.size()) {
@@ -123,7 +123,7 @@ public class SurveyController {
 				int n;
 				while(true){
 					showType(rows);
-					System.out.print("번호 입력>> ");
+					System.out.print("(종료 : 0)\n번호 입력>> ");
 					n = Integer.parseInt(br.readLine());
 					if(n==0) break;
 					if(n>0 && n<=rows.size()) {
